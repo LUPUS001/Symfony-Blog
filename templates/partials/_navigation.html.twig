@@ -2,13 +2,14 @@
     <li class="{{ (app.request.attributes.get('_route') == 'index') ? 'active': ''}} lien">
         <a href="{{ path('index') }}"><i class="fa fa-home sr-icons"></i> Home</a>
     </li>
-    <li class=" lien"><a href="{{ path('about') }}">
-    <i class="fa fa-bookmark sr-icons"></i> About</a>
+    <li class="{{ (app.request.attributes.get('_route') == 'about') ? 'active': ''}} lien">
+      <a href="{{ path('about') }}"><i class="fa fa-bookmark sr-icons"></i> About</a>
     </li>
- <li class=" lien"><a href="{{ path('blog') }}">
- <i class="fa fa-file-text sr-icons"></i> Blog</a>
+    {# Ten en cuenta que el menú blog se debe activar para las rutas blog y single_post #}
+    <li class="{{ (app.request.attributes.get('_route') == 'blog' or app.request.attributes.get('_route') == 'single_post') ? 'active': ''}} lien">
+       <a href="{{ path('blog') }}"><i class="fa fa-file-text sr-icons"></i> Blog</a>
     </li>
-    <li><a href="{{ path('contact') }}">
-    <i class="fa fa-phone-square sr-icons"></i> Contact</a>
+    <li class="{{ (app.request.attributes.get('_route') == 'contact') ? 'active': ''}} lien">
+        <a href="{{ path('contact') }}"><i class="fa fa-phone-square sr-icons"></i> Contact</a>
     </li>
 </ul>
