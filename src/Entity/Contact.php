@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ContactRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 class Contact
@@ -15,12 +16,16 @@ class Contact
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Campo 'First Name' es obligatorio")]
+    #[Assert\NotBlank(message: "Field `First Name` is mandatory")]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Campo 'Email' es obligatorio")]
+    #[Assert\Email(message:"{{ value }} no es un email válido")]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
