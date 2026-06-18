@@ -1,12 +1,21 @@
 {% extends 'base.html.twig' %}
 {% block title%}Categories{% endblock %}
-{% block body%}
+{% block body %}
 <!-- Principal Content Start -->
    <div id="categories">
    	  <div class="container">
    	    <div class="col-xs-12 col-sm-8 col-sm-push-2">
        	   <h1>Categories</h1>
        	   <hr class='divider'>
+           {{ form_start(form, {'attr': {'class':'form-horizontal'}}) }}
+           {{ form_errors(form) }}
+               <div class="form-group">
+                   <div class="col-xs-12">
+                       {{ form_row(form.name, {'attr': {'class':'form-control'}}) }}
+                       {{ form_row(form.Send, {'attr': {'class':'pull-right btn btn-lg sr-button'}}) }}
+                   </div>
+               </div>
+           {{ form_end(form) }}
        	</div>   
    	  </div>
    </div>
