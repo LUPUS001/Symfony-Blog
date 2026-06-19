@@ -8,3 +8,8 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+
+# Ignore uploaded gallery and portfolio images
+/public/images/index/gallery/*
+/public/images/index/portfolio/*
+

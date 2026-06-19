@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Entity\Category;
 
 final class PageController extends AbstractController
 {
@@ -48,8 +49,12 @@ final class PageController extends AbstractController
     }
 
     #[Route('/', name: 'index')]
-    public function index(): Response
+    public function index(ManagerRegistry $doctrine, Request $request): Response
     {
-        return $this->render('page/index.html.twig');
+        $repository = $doctrine->getRepository(Category::class);
+
+        $categories = $repository->findAll();
+
+        return $this->render('page/index.html.twig', ['categories' => $categories]);
     }
 }
