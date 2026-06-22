@@ -19,8 +19,10 @@ final class BlogController extends AbstractController
     {
         $repositorio = $doctrine->getRepository(Post::class);
         $post = $slug ? $repositorio->findOneBy(["slug"=>$slug]) : null;
+        $recents = $repositorio->findRecents();
         return $this->render('blog/single_post.html.twig', [
             'post' => $post,
+            'recents' => $recents
         ]);
     }
 
@@ -80,8 +82,8 @@ final class BlogController extends AbstractController
     #[Route('/blog/{page}', name: 'blog', requirements: ['page' => '\d+'], defaults: ['page' => 1])]
     public function index(ManagerRegistry $doctrine, int $page = 1): Response
     {
-        $repository = $doctrine->getRepository(Post::class);
-        $posts = $repository->findAll();
+        $repositorio = $doctrine->getRepository(Post::class);
+        $posts = $repositorio->findAll();
 
         return $this->render('blog/index.html.twig', [
             'posts' => $posts,

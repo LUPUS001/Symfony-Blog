@@ -17,7 +17,7 @@
           <div class="col-xs-12 col-sm-9">
             <img class="img-responsive" src="{{ asset('images/blog/' ~ post.image) }}" alt="post's picture" style="margin-bottom: 20px; max-width: 100%;">
             <p>{{ post.content | nl2br }}</p>
-            <h4>- By {{ post.postUser.name }}</h4>
+            <h4>- By {{ post.postUser ? post.postUser.name : 'Anónimo' }}</h4> <!-- si no tiene autor, muestra 'Anónimo' -->
             <hr>
             <ul class="list-inline">
               <li>{{ post.publishedAt | date('d') }} {{ post.publishedAt | date('F') }} |</li>
@@ -28,20 +28,9 @@
           <div class="col-xs-12 col-sm-3">
             <h4>Recent Post</h4>
             <hr class="subtitle1">
-            <div class="new new1">
-            <hr>
-               <a href="">Aliquam soluta</a>
-               <h5> By <span>Quae</span></h5>
-               <p>10 April</p><i class="fa fa-clock-o sr-icons"></i>  8:00 AM
-            <hr>
-            </div>
-            <div class="new">
-            <hr>
-                <a href="">Consequuntur</a>
-               <h5> By <span>Omnis</span></h5>
-               <p>12 May</p><i class="fa fa-clock-o sr-icons"></i>  4:00 PM
-               <hr>
-            </div>
+            {% for recent in recents %}
+                {{ include ('partials/_recent_post.html.twig', {'recent': recent}) }}
+            {% endfor %}
           </div>
           </div>
           </div>
