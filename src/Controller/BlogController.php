@@ -10,15 +10,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
-
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 final class BlogController extends AbstractController
 {
-    #[Route('/blog/single_post', name: 'single_post')]
-    public function single_post(): Response
+    #[Route('/single_post/{slug}', name: 'single_post')]
+    public function post(ManagerRegistry $doctrine, $slug): Response
     {
-        return $this->render('blog/single_post.html.twig');
+        $repositorio = $doctrine->getRepository(Post::class);
+        $post = $repositorio->findOneBy(["slug"=>$slug]);
+        return $this->render('blog/single_post.html.twig', [
+            'post' => $post,
+        ]);
     }
 
     #[Route('/blog/new', name: 'new_post')]
@@ -67,9 +70,7 @@ final class BlogController extends AbstractController
             $entityManager->persist($post);
             $entityManager->flush();
 
-            return $this->render('blog/new_post.html.twig', array(
-                'form' => $form->createView()
-            ));
+            return $this->redirectToRoute('single_post', ["slug" => $post->getSlug()]);
         }
         return $this->render('blog/new_post.html.twig', array(
                 'form' => $form->createView()

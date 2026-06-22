@@ -12,4 +12,5 @@
 # Ignore uploaded gallery and portfolio images
 /public/images/index/gallery/*
 /public/images/index/portfolio/*
+/public/images/blog/*
 
