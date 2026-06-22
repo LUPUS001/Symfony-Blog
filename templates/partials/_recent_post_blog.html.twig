@@ -1,0 +1,13 @@
+<div class="post">
+    <div class="post-heading">
+        <span>{{ recent.publishedAt | date('d') }} {{ recent.publishedAt | date('F') | upper }}</span>
+        <img class="img-responsive" src="{{ asset('images/blog/' ~ recent.image) }}" alt="post's picture">
+    </div>
+    <div class="post-body">
+        <span>
+            <i class="fa fa-heart sr-icons"></i> {{ recent.numLikes }}
+            <i class="fa fa-comments sr-icons"></i> {{ recent.numComments }}
+        </span>
+        <h4 class="text-left"><a href="{{ path('single_post', {'slug': recent.slug}) }}"><strong>{{ recent.title }}</strong></a></h4>
+    </div>
+</div>
