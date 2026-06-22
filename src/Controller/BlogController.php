@@ -14,11 +14,11 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 final class BlogController extends AbstractController
 {
-    #[Route('/single_post/{slug}', name: 'single_post')]
-    public function post(ManagerRegistry $doctrine, $slug): Response
+    #[Route('/single_post/{slug?}', name: 'single_post')]
+    public function post(ManagerRegistry $doctrine, $slug = null): Response
     {
         $repositorio = $doctrine->getRepository(Post::class);
-        $post = $repositorio->findOneBy(["slug"=>$slug]);
+        $post = $slug ? $repositorio->findOneBy(["slug"=>$slug]) : null;
         return $this->render('blog/single_post.html.twig', [
             'post' => $post,
         ]);
@@ -77,11 +77,15 @@ final class BlogController extends AbstractController
         ));
     }
 
-    #[Route('/blog', name: 'blog')]
-    public function blog(): Response
+    #[Route('/blog/{page}', name: 'blog', requirements: ['page' => '\d+'], defaults: ['page' => 1])]
+    public function index(ManagerRegistry $doctrine, int $page = 1): Response
     {
+        $repository = $doctrine->getRepository(Post::class);
+        $posts = $repository->findAll();
+
         return $this->render('blog/index.html.twig', [
-            'controller_name' => 'BlogController',
+            'posts' => $posts,
         ]);
     }
+
 }
