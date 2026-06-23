@@ -41,6 +41,21 @@ class PostRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+    * @return Post[] Returns an array of Post objects
+    */
+    public function findByText(string $searchTerm): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere("p.content LIKE :val")
+            ->setParameter('val', '%'.$searchTerm.'%')
+            ->orderBy('p.publishedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+    }
+
+
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */
