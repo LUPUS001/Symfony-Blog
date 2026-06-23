@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Post;
 use App\Form\PostType;
+use App\Entity\Comment;
+use App\Form\CommentType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,14 +17,33 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 final class BlogController extends AbstractController
 {
     #[Route('/single_post/{slug?}', name: 'single_post')]
-    public function post(ManagerRegistry $doctrine, $slug = null): Response
+    public function post(ManagerRegistry $doctrine, Request $request, $slug): Response
     {
         $repositorio = $doctrine->getRepository(Post::class);
         $post = $slug ? $repositorio->findOneBy(["slug"=>$slug]) : null;
         $recents = $repositorio->findRecents();
+        $comment = new Comment();
+        
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment = $form->getData();
+            $comment->setPost($post);
+
+            //Aumentamos en 1 el número de comentarios del post
+            $post->setNumComments($post->getNumComments() + 1);
+
+            $entityManager = $doctrine->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('single_post', ['slug' => $post->getSlug()]);
+        }
         return $this->render('blog/single_post.html.twig', [
             'post' => $post,
-            'recents' => $recents
+            'recents' => $recents,
+            'commentForm' => $form->createView(),
         ]);
     }
 

@@ -79,27 +79,7 @@
               <p>Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed id ligula consectetur, iaculis dolor vitae, gravida mauris. Duis ultrices tortor non felis convallis bibendum. Maecenas diam velit, sollicitudin at imperdiet ac, consectetur non nibh. Etiam eget dapibus nulla. Nulla placerat mauris ut elit placerat luctus. Aliquam porttitor leo non nisl scelerisque sollicitudin. </p>
             </div>
               <hr class="line">
-              <div id="form" class="col-xs-12 col-sm-6 col-sm-push-3">
-              <form class="form-horizontal">
-                <div class="form-group">
-                  <div class="col-xs-12 col-sm-6">
-                    <label class="label-control">Name</label>
-                    <input type="text" class="form-control">
-                  </div>
-                  <div class="col-xs-12 col-sm-6">
-                    <label class="label-control">Email</label>
-                    <input type="text" class="form-control">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-xs-12">
-                      <label class="label-control">Type Your Comment</label>
-                    <textarea class="form-control"></textarea>
-                    <a href="" class="btn btn-lg btn-info sr-button">SEND</a>
-                  </div>
-                </div>
-              </form>
-              </div>
+               {{ include ('partials/_post_comments.html.twig') }}
           </div>
           </div>
         <!-- End of Comments -->
