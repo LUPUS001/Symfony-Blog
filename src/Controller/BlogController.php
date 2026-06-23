@@ -47,6 +47,21 @@ final class BlogController extends AbstractController
         ]);
     }
 
+    #[Route('/single_post/{slug}/like', name: 'post_like')]
+    public function like(ManagerRegistry $doctrine, $slug): Response
+    {
+        $repository = $doctrine->getRepository(Post::class);
+        $post = $repository->findOneBy(["slug"=>$slug]);
+        if ($post){
+            // Haz un método llamado like() en la entidad Post que aumente en 1 numLikes
+            $post->like();
+            $entityManager = $doctrine->getManager();    
+            $entityManager->persist($post);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('single_post', ["slug" => $post->getSlug()]);
+    }
+
     #[Route('/blog/new', name: 'new_post')]
     public function newPost(ManagerRegistry $doctrine, Request $request, SluggerInterface $slugger): Response
     {
@@ -112,5 +127,4 @@ final class BlogController extends AbstractController
             'recents' => $recents
         ]);
     }
-
 }
